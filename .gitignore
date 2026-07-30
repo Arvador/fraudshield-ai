@@ -1,0 +1,11 @@
+﻿data/raw/
+data/processed/
+data/features/
+*.csv
+*.pkl
+*.parquet
+.venv/
+__pycache__/
+.env
+*.ipynb_checkpoints
+mlruns/
