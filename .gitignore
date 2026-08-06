@@ -1,11 +1,31 @@
-﻿data/raw/
-data/processed/
-data/features/
-*.csv
-*.pkl
-*.parquet
+# Environnement
 .venv/
 __pycache__/
-.env
-*.ipynb_checkpoints
+*.pyc
+
+# Données (trop volumineuses pour Git)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Modèles entraînés
+models/*.pkl
+models/*.joblib
+models/*.txt
+!models/.gitkeep
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Kaggle credentials (ne JAMAIS committer)
+kaggle.json
+
+# MLflow
 mlruns/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
