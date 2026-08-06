@@ -43,6 +43,12 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/02_data_preparatio
 # 2. Entrainement du modele baseline (genere models/lightgbm_baseline.pkl)
 jupyter nbconvert --to notebook --execute --inplace notebooks/03_modeling.ipynb
 
-# 3. Lancer l'application de demo
+# 3. Lancer l'application de demo (page principale + page Dashboard)
 streamlit run app/streamlit_app.py
+```
+
+## Tests
+
+```bash
+pytest tests/
 ```
