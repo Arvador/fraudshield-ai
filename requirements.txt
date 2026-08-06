@@ -53,6 +53,7 @@ httpx==0.28.1
 huey==3.3.4
 idna==3.18
 importlib_metadata==9.0.0
+iniconfig==2.3.0
 ipykernel==7.3.0
 ipython==9.16.1
 ipython_pygments_lexers==1.1.1
@@ -118,6 +119,7 @@ parso==0.8.7
 pillow==12.3.0
 pip_system_certs==5.3
 platformdirs==4.11.0
+pluggy==1.6.0
 prettytable==3.18.0
 prometheus_client==0.26.0
 prompt_toolkit==3.0.53
@@ -134,6 +136,7 @@ pydantic_core==2.46.4
 pydeck==0.9.3
 Pygments==2.20.0
 pyparsing==3.3.2
+pytest==9.1.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 python-json-logger==4.1.0
