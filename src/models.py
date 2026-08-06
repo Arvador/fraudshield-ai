@@ -1,6 +1,8 @@
 # Module 2 - Entrainement des modeles ML
 import gc
+import os
 
+import joblib
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
@@ -74,3 +76,12 @@ def evaluate_model(model: lgb.LGBMClassifier, test: pd.DataFrame, feature_cols: 
         "classification_report": classification_report(y_true, y_pred, digits=3),
     }
     return metrics
+
+
+def save_model(model: lgb.LGBMClassifier, path: str) -> None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    joblib.dump(model, path)
+
+
+def load_model(path: str) -> lgb.LGBMClassifier:
+    return joblib.load(path)
