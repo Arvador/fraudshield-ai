@@ -23,9 +23,12 @@ kaggle.json
 
 # MLflow
 mlruns/
+mlflow.db
+mlartifacts/
 
 # IDE / OS
 .vscode/
 .idea/
+.claude/
 .DS_Store
 Thumbs.db
