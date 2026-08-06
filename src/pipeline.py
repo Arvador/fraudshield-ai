@@ -2,6 +2,7 @@
 import gc
 import os
 
+import joblib
 import numpy as np
 import pandas as pd
 
@@ -50,10 +51,23 @@ def get_column_types(df: pd.DataFrame) -> tuple[list[str], list[str]]:
     return categorical_cols, numerical_cols
 
 
-def encode_categoricals(df: pd.DataFrame, categorical_cols: list[str]) -> pd.DataFrame:
+def encode_categoricals(df: pd.DataFrame, categorical_cols: list[str]) -> tuple[pd.DataFrame, dict]:
+    mappings = {}
     for col in categorical_cols:
-        df[col] = df[col].astype("category").cat.codes.astype("int32")
-    return df
+        cat = df[col].astype("category")
+        mappings[col] = list(cat.cat.categories)
+        df[col] = cat.cat.codes.astype("int32")
+    return df, mappings
+
+
+def decode_value(mappings: dict, col: str, code) -> str:
+    categories = mappings.get(col)
+    if categories is None:
+        return str(code)
+    code = int(code)
+    if code < 0 or code >= len(categories):
+        return "Inconnu"
+    return str(categories[code])
 
 
 def add_identity_flag(df: pd.DataFrame, identity_marker_col: str = "DeviceType") -> pd.DataFrame:
@@ -65,7 +79,7 @@ def load_and_prepare_data(
     transaction_path: str,
     identity_path: str,
     encode: bool = True,
-) -> pd.DataFrame:
+) -> tuple[pd.DataFrame, dict]:
     df_transaction = load_csv_chunked(transaction_path)
     df_identity = load_csv_chunked(identity_path)
 
@@ -75,13 +89,23 @@ def load_and_prepare_data(
 
     df = add_identity_flag(df)
 
+    mappings = {}
     if encode:
         categorical_cols, _ = get_column_types(df)
-        df = encode_categoricals(df, categorical_cols)
+        df, mappings = encode_categoricals(df, categorical_cols)
 
-    return df
+    return df, mappings
 
 
 def save_processed(df: pd.DataFrame, output_path: str) -> None:
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_parquet(output_path, index=False)
+
+
+def save_mappings(mappings: dict, output_path: str) -> None:
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    joblib.dump(mappings, output_path)
+
+
+def load_mappings(path: str) -> dict:
+    return joblib.load(path)

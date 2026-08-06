@@ -33,3 +33,16 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 ```
+
+## Pipeline
+
+```bash
+# 1. Preparation des donnees (genere data/processed/train_clean.parquet + category_mappings.pkl)
+jupyter nbconvert --to notebook --execute --inplace notebooks/02_data_preparation.ipynb
+
+# 2. Entrainement du modele baseline (genere models/lightgbm_baseline.pkl)
+jupyter nbconvert --to notebook --execute --inplace notebooks/03_modeling.ipynb
+
+# 3. Lancer l'application de demo
+streamlit run app/streamlit_app.py
+```
